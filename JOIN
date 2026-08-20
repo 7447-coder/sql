@@ -1,0 +1,166 @@
+INNER JOIN
+Q29. Display customer names and their orders.
+SELECT
+    c.customer_name,
+    o.order_id,
+    o.order_date,
+    o.total_amount
+FROM customers c
+INNER JOIN orders o
+    ON c.customer_id = o.customer_id;
+Q30. Display customer name and order amount.
+SELECT
+    c.customer_name,
+    o.total_amount
+FROM customers c
+JOIN orders o
+    ON c.customer_id = o.customer_id;
+Q31. Display order ID and customer name for every order.
+SELECT
+    o.order_id,
+    c.customer_name
+FROM orders o
+JOIN customers c
+    ON o.customer_id = c.customer_id;
+Q32. Display employee name and orders handled by them.
+SELECT
+    e.employee_name,
+    o.order_id,
+    o.total_amount
+FROM employees e
+JOIN orders o
+    ON e.employee_id = o.employee_id;
+6. Multiple JOINs
+Q33. Display customer name, order ID, product name and quantity.
+SELECT
+    c.customer_name,
+    o.order_id,
+    p.product_name,
+    oi.quantity
+FROM customers c
+JOIN orders o
+    ON c.customer_id = o.customer_id
+JOIN order_items oi
+    ON o.order_id = oi.order_id
+JOIN products p
+    ON oi.product_id = p.product_id;
+Q34. Display order ID, customer name, product name and price.
+SELECT
+    o.order_id,
+    c.customer_name,
+    p.product_name,
+    oi.unit_price
+FROM orders o
+JOIN customers c
+    ON o.customer_id = c.customer_id
+JOIN order_items oi
+    ON o.order_id = oi.order_id
+JOIN products p
+    ON oi.product_id = p.product_id;
+Q35. Display customer name and account balance.
+SELECT
+    c.customer_name,
+    a.balance
+FROM customers c
+JOIN accounts a
+    ON c.customer_id = a.customer_id;
+Q36. Display customer, order and employee handling the order.
+SELECT
+    c.customer_name,
+    o.order_id,
+    e.employee_name,
+    o.total_amount
+FROM orders o
+JOIN customers c
+    ON o.customer_id = c.customer_id
+JOIN employees e
+    ON o.employee_id = e.employee_id;
+7. LEFT JOIN
+Q37. Display all customers, including those without orders.
+SELECT
+    c.customer_name,
+    o.order_id,
+    o.total_amount
+FROM customers c
+LEFT JOIN orders o
+    ON c.customer_id = o.customer_id;
+Q38. Find customers who have never placed an order.
+SELECT
+    c.customer_id,
+    c.customer_name
+FROM customers c
+LEFT JOIN orders o
+    ON c.customer_id = o.customer_id
+WHERE o.order_id IS NULL;
+Q39. Display all products, including products never ordered.
+SELECT
+    p.product_name,
+    oi.order_id
+FROM products p
+LEFT JOIN order_items oi
+    ON p.product_id = oi.product_id;
+Q40. Find products that have never been sold.
+SELECT
+    p.product_id,
+    p.product_name
+FROM products p
+LEFT JOIN order_items oi
+    ON p.product_id = oi.product_id
+WHERE oi.product_id IS NULL;
+8. JOIN + GROUP BY
+Q41. Find total amount spent by each customer.
+SELECT
+    c.customer_name,
+    SUM(o.total_amount) AS total_spent
+FROM customers c
+JOIN orders o
+    ON c.customer_id = o.customer_id
+GROUP BY c.customer_id, c.customer_name;
+Q42. Find number of orders placed by each customer.
+SELECT
+    c.customer_name,
+    COUNT(o.order_id) AS total_orders
+FROM customers c
+LEFT JOIN orders o
+    ON c.customer_id = o.customer_id
+GROUP BY c.customer_id, c.customer_name;
+Q43. Find total sales handled by each employee.
+SELECT
+    e.employee_name,
+    SUM(o.total_amount) AS total_sales
+FROM employees e
+JOIN orders o
+    ON e.employee_id = o.employee_id
+GROUP BY e.employee_id, e.employee_name;
+Q44. Find the total quantity sold for each product.
+SELECT
+    p.product_name,
+    SUM(oi.quantity) AS total_quantity
+FROM products p
+JOIN order_items oi
+    ON p.product_id = oi.product_id
+GROUP BY p.product_id, p.product_name;
+Q45. Find products purchased more than once.
+SELECT
+    p.product_name,
+    SUM(oi.quantity) AS total_quantity
+FROM products p
+JOIN order_items oi
+    ON p.product_id = oi.product_id
+GROUP BY p.product_id, p.product_name
+HAVING SUM(oi.quantity) > 1;
+9. SELF JOIN
+Q46. Display employee and manager name.
+SELECT
+    e.employee_name AS employee,
+    m.employee_name AS manager
+FROM employees e
+LEFT JOIN employees m
+    ON e.manager_id = m.employee_id;
+Q47. Find employees reporting to Amit Kumar.
+SELECT
+    e.employee_name
+FROM employees e
+JOIN employees m
+    ON e.manager_id = m.employee_id
+WHERE m.employee_name = 'Amit Kumar';
