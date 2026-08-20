@@ -1,0 +1,151 @@
+WINDOW FUNCTIONS
+ROW_NUMBER
+Q61. Give row numbers to employees according to salary.
+SELECT
+    employee_name,
+    salary,
+    ROW_NUMBER() OVER (
+        ORDER BY salary DESC
+    ) AS row_num
+FROM employees;
+Q62. Find the highest-paid employee using ROW_NUMBER.
+WITH ranked_employees AS (
+    SELECT
+        employee_name,
+        salary,
+        ROW_NUMBER() OVER (
+            ORDER BY salary DESC
+        ) AS rn
+    FROM employees
+)
+SELECT *
+FROM ranked_employees
+WHERE rn = 1;
+Q63. Find the top 3 highest-paid employees.
+WITH ranked_employees AS (
+    SELECT
+        employee_name,
+        salary,
+        ROW_NUMBER() OVER (
+            ORDER BY salary DESC
+        ) AS rn
+    FROM employees
+)
+SELECT *
+FROM ranked_employees
+WHERE rn <= 3;
+15. RANK
+Q64. Rank employees according to salary.
+SELECT
+    employee_name,
+    salary,
+    RANK() OVER (
+        ORDER BY salary DESC
+    ) AS salary_rank
+FROM employees;
+Q65. Rank products according to price within each category.
+SELECT
+    product_name,
+    category,
+    price,
+    RANK() OVER (
+        PARTITION BY category
+        ORDER BY price DESC
+    ) AS category_rank
+FROM products;
+16. Top N Per Group
+Q66. Find the highest-paid employee from each department.
+WITH ranked_employees AS (
+    SELECT
+        employee_name,
+        department,
+        salary,
+        ROW_NUMBER() OVER (
+            PARTITION BY department
+            ORDER BY salary DESC
+        ) AS rn
+    FROM employees
+)
+SELECT *
+FROM ranked_employees
+WHERE rn = 1;
+Q67. Find the top 2 highest-paid employees from each department.
+WITH ranked_employees AS (
+    SELECT
+        employee_name,
+        department,
+        salary,
+        ROW_NUMBER() OVER (
+            PARTITION BY department
+            ORDER BY salary DESC
+        ) AS rn
+    FROM employees
+)
+SELECT *
+FROM ranked_employees
+WHERE rn <= 2;
+Q68. Find the top 3 most expensive products in each category.
+WITH ranked_products AS (
+    SELECT
+        product_name,
+        category,
+        price,
+        ROW_NUMBER() OVER (
+            PARTITION BY category
+            ORDER BY price DESC
+        ) AS rn
+    FROM products
+)
+SELECT *
+FROM ranked_products
+WHERE rn <= 3;
+17. LAG / LEAD
+Q69. Display each order with the previous order amount.
+SELECT
+    order_id,
+    order_date,
+    total_amount,
+    LAG(total_amount) OVER (
+        ORDER BY order_date
+    ) AS previous_amount
+FROM orders;
+Q70. Display each order with the next order amount.
+SELECT
+    order_id,
+    order_date,
+    total_amount,
+    LEAD(total_amount) OVER (
+        ORDER BY order_date
+    ) AS next_amount
+FROM orders;
+Q71. Calculate the difference from the previous order.
+SELECT
+    order_id,
+    order_date,
+    total_amount,
+    total_amount -
+        LAG(total_amount) OVER (
+            ORDER BY order_date
+        ) AS difference
+FROM orders;
+18. Running Total
+Q72. Calculate running sales.
+SELECT
+    order_id,
+    order_date,
+    total_amount,
+    SUM(total_amount) OVER (
+        ORDER BY order_date
+    ) AS running_sales
+FROM orders;
+Q73. Calculate running sales for each customer.
+SELECT
+    customer_id,
+    order_id,
+    order_date,
+    total_amount,
+    SUM(total_amount) OVER (
+        PARTITION BY customer_id
+        ORDER BY order_date
+    ) AS running_sales
+FROM orders;
