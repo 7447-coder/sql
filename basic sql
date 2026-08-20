@@ -1,0 +1,39 @@
+Basic SQL — Questions with Answers
+Q1. Display all customers.
+SELECT *
+FROM customers;
+Q2. Display customer name and email.
+SELECT customer_name, email
+FROM customers;
+Q3. Find customers from Pune.
+SELECT *
+FROM customers
+WHERE city = 'Pune';
+Q4. Find products costing more than ₹10,000.
+SELECT *
+FROM products
+WHERE price > 10000;
+Q5. Find products with stock less than 30.
+SELECT *
+FROM products
+WHERE stock < 30;
+Q6. Display all Electronics products.
+SELECT *
+FROM products
+WHERE category = 'Electronics';
+Q7. Find customers who signed up after March 1, 2024.
+SELECT *
+FROM customers
+WHERE signup_date > '2024-03-01';
+Q8. Find all delivered orders.
+SELECT *
+FROM orders
+WHERE order_status = 'Delivered';
+Q9. Find orders greater than ₹20,000.
+SELECT *
+FROM orders
+WHERE total_amount > 20000;
+Q10. Display Sales employees.
+SELECT *
+FROM employees
+WHERE department = 'Sales';
