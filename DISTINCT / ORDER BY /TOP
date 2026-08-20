@@ -1,0 +1,20 @@
+DISTINCT / ORDER BY / TOP
+Q11. Display all unique cities.
+SELECT DISTINCT city
+FROM customers;
+Q12. Display products from highest to lowest price.
+SELECT *
+FROM products
+ORDER BY price DESC;
+Q13. Display employees from highest to lowest salary.
+SELECT *
+FROM employees
+ORDER BY salary DESC;
+Q14. Find the 3 most expensive products.
+SELECT TOP 3 *
+FROM products
+ORDER BY price DESC;
+Q15. Display customers alphabetically.
+SELECT *
+FROM customers
+ORDER BY customer_name;
