@@ -1,0 +1,58 @@
+Aggregate Functions
+Q16. Find the total number of customers.
+SELECT COUNT(*) AS total_customers
+FROM customers;
+Q17. Find the average product price.
+SELECT AVG(price) AS average_price
+FROM products;
+Q18. Find the most expensive product.
+SELECT MAX(price) AS highest_price
+FROM products;
+Q19. Find the cheapest product.
+SELECT MIN(price) AS lowest_price
+FROM products;
+Q20. Find total sales.
+SELECT SUM(total_amount) AS total_sales
+FROM orders;
+Q21. Find average order value.
+SELECT AVG(total_amount) AS average_order_value
+FROM orders;
+Q22. Find total stock available.
+SELECT SUM(stock) AS total_stock
+FROM products;
+4. GROUP BY + HAVING
+Q23. Count customers in each city.
+SELECT city, COUNT(*) AS customer_count
+FROM customers
+GROUP BY city;
+Q24. Find average price for each product category.
+SELECT
+    category,
+    AVG(price) AS average_price
+FROM products
+GROUP BY category;
+Q25. Find total stock for each category.
+SELECT
+    category,
+    SUM(stock) AS total_stock
+FROM products
+GROUP BY category;
+Q26. Count employees in each department.
+SELECT
+    department,
+    COUNT(*) AS employee_count
+FROM employees
+GROUP BY department;
+Q27. Find departments having more than 2 employees.
+SELECT
+    department,
+    COUNT(*) AS employee_count
+FROM employees
+GROUP BY department
+HAVING COUNT(*) > 2;
+Q28. Find number of orders for each customer.
+SELECT
+    customer_id,
+    COUNT(*) AS order_count
+FROM orders
+GROUP BY customer_id;
