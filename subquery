@@ -1,0 +1,84 @@
+SUBQUERIES
+Q48. Find products whose price is greater than the average product price.
+SELECT *
+FROM products
+WHERE price > (
+    SELECT AVG(price)
+    FROM products
+);
+Q49. Find employees earning more than average salary.
+SELECT *
+FROM employees
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees
+);
+Q50. Find orders greater than the average order amount.
+SELECT *
+FROM orders
+WHERE total_amount > (
+    SELECT AVG(total_amount)
+    FROM orders
+);
+Q51. Find the most expensive product.
+SELECT *
+FROM products
+WHERE price = (
+    SELECT MAX(price)
+    FROM products
+);
+Q52. Find employees with the highest salary.
+SELECT *
+FROM employees
+WHERE salary = (
+    SELECT MAX(salary)
+    FROM employees
+);
+11. Second Highest
+Q53. Find the second-highest salary.
+SELECT MAX(salary) AS second_highest_salary
+FROM employees
+WHERE salary < (
+    SELECT MAX(salary)
+    FROM employees
+);
+Q54. Find the second-highest product price.
+SELECT MAX(price) AS second_highest_price
+FROM products
+WHERE price < (
+    SELECT MAX(price)
+    FROM products
+);
+12. IN / EXISTS
+Q55. Find customers who have placed an order.
+SELECT *
+FROM customers
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM orders
+);
+Q56. Find customers who have never placed an order.
+SELECT *
+FROM customers
+WHERE customer_id NOT IN (
+    SELECT customer_id
+    FROM orders
+);
+
+A safer NOT EXISTS version:
+
+SELECT *
+FROM customers c
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+);
+Q57. Find products that have been ordered.
+SELECT *
+FROM products p
+WHERE EXISTS (
+    SELECT 1
+    FROM order_items oi
+    WHERE oi.product_id = p.product_id
+);
